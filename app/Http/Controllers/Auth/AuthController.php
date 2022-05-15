@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    private array $discarded_role_names = ['prisoner'];
 
     /**
      * @OA\Post(
@@ -48,22 +51,25 @@ class AuthController extends Controller
         }
 
         $validated = $request->validated();
-        if (Auth::attempt([
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'state' => true,
-        ])) {
-            $request->session()->regenerate();
-            $user = Auth::user();
-            $token = $user->createToken('auth-token')->plainTextToken;
-            return $this->sendResponse(message: 'Successful authentication.', result: [
-                'user' => new UserResource($user),
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-            ]);
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user ||
+            !$user->state ||
+            in_array($user->role->slug, $this->discarded_role_names) ||
+            !Hash::check($validated['password'], $user->password)
+        ) {
+            return $this->sendResponse(message: 'The provided credentials are incorrect.', code: 404);
         }
 
-        return $this->sendResponse(message: 'The provided credentials are incorrect.', code: 404);
+        Auth::login($user);
+        $token = $user->createToken('auth-token')->plainTextToken;
+        $request->session()->regenerate();
+
+        return $this->sendResponse(message: 'Successful authentication.', result: [
+            'user' => new UserResource($user),
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
     }
 
     /**
