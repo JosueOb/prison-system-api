@@ -11,6 +11,36 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    /**
+     * @OA\Post(
+     *     path="/login",
+     *     tags={"Auth"},
+     *     summary="Login",
+     *     operationId="user.login",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 ref="#/components/schemas/LoginRequest",
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful authentication."
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="User is already authenticated."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="The provided credentials are incorrect."
+     *     ),
+     * )
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         if (Auth::check()) {
@@ -33,7 +63,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return $this->sendResponse(message: 'The provided credentials are incorrect.');
+        return $this->sendResponse(message: 'The provided credentials are incorrect.', code: 404);
     }
 
     public function logout(Request $request): JsonResponse

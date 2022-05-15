@@ -8,6 +8,32 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
+
+/**
+ * @OA\OpenApi(
+ *     @OA\Server(
+ *         url="/api/"
+ *     ),
+ *     @OA\Info(
+ *         title="Prison System API",
+ *         description="Prison management - Backend",
+ *         version="1.0.0",
+ *     ),
+ * )
+ *
+ * @OA\Tag(
+ *     name="Auth",
+ *     description="Authentication routes"
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     scheme="Bearer",
+ *     securityScheme="Bearer",
+ *     type="apiKey",
+ *     in="header",
+ *     name="Authorization",
+ *)
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
