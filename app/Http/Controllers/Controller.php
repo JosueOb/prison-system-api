@@ -26,13 +26,6 @@ use Illuminate\Routing\Controller as BaseController;
  *     description="Authentication routes"
  * )
  *
- * @OA\SecurityScheme(
- *     scheme="Bearer",
- *     securityScheme="Bearer",
- *     type="apiKey",
- *     in="header",
- *     name="Authorization",
- *)
  */
 class Controller extends BaseController
 {

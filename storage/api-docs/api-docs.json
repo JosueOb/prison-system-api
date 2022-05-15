@@ -57,7 +57,7 @@
                 },
                 "security": [
                     {
-                        "Bearer": [
+                        "sanctum": [
                             ""
                         ]
                     }
@@ -84,11 +84,11 @@
             }
         },
         "securitySchemes": {
-            "Bearer": {
+            "sanctum": {
                 "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
-                "in": "header",
-                "scheme": "Bearer"
+                "in": "header"
             }
         }
     },

@@ -72,7 +72,7 @@ class AuthController extends Controller
      *     tags={"Auth"},
      *     summary="Logout",
      *     operationId="user.logout",
-     *     security={{ "Bearer":{""} }},
+     *     security={{ "sanctum":{""} }},
      *     @OA\Response(
      *         response=200,
      *         description="Logged out."
