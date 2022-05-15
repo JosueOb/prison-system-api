@@ -66,12 +66,29 @@ class AuthController extends Controller
         return $this->sendResponse(message: 'The provided credentials are incorrect.', code: 404);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/logout",
+     *     tags={"Auth"},
+     *     summary="Logout",
+     *     operationId="user.logout",
+     *     security={{ "Bearer":{""} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logged out."
+     *     ),
+     *      @OA\Response(
+     *         response=401,
+     *         description="Unauthorized."
+     *     ),
+     * )
+     */
     public function logout(Request $request): JsonResponse
     {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         $request->user()->tokens()->delete();
 
-        return $this->sendResponse(message: 'Logged out');
+        return $this->sendResponse(message: 'Logged out.');
     }
 }

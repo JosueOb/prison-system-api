@@ -39,6 +39,30 @@
                     }
                 }
             }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "user.logout",
+                "responses": {
+                    "200": {
+                        "description": "Logged out."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [
+                            ""
+                        ]
+                    }
+                ]
+            }
         }
     },
     "components": {
