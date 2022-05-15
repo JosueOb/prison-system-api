@@ -42,6 +42,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Methods
+     */
+    public function getFullName(): string
+    {
+        return "$this->first_name $this->last_name";
+    }
+
+    /**
      * Relationships
      */
     public function role(): BelongsTo
