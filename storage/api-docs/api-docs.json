@@ -36,6 +36,9 @@
                     },
                     "404": {
                         "description": "The provided credentials are incorrect."
+                    },
+                    "422": {
+                        "description": "Unprocessable Content."
                     }
                 }
             }

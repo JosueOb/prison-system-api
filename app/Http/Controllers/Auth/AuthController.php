@@ -8,7 +8,6 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -42,14 +41,14 @@ class AuthController extends Controller
      *         response=404,
      *         description="The provided credentials are incorrect."
      *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Content."
+     *     ),
      * )
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        if (Auth::check()) {
-            return $this->sendResponse(message: 'User is already authenticated.', code: 403);
-        }
-
         $validated = $request->validated();
         $user = User::where('email', $validated['email'])->first();
 
@@ -61,9 +60,11 @@ class AuthController extends Controller
             return $this->sendResponse(message: 'The provided credentials are incorrect.', code: 404);
         }
 
-        Auth::login($user);
+        if (!$user->tokens->isEmpty()) {
+            return $this->sendResponse(message: 'User is already authenticated.', code: 403);
+        }
+
         $token = $user->createToken('auth-token')->plainTextToken;
-        $request->session()->regenerate();
 
         return $this->sendResponse(message: 'Successful authentication.', result: [
             'user' => new UserResource($user),
@@ -91,10 +92,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
         $request->user()->tokens()->delete();
-
         return $this->sendResponse(message: 'Logged out.');
     }
 }
