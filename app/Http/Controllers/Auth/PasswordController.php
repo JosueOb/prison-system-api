@@ -33,8 +33,8 @@ class PasswordController extends Controller
     public function update(ResetPasswordRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $status = Password::reset($validated, function ($user) use ($validated) {
-            $user->password = Hash::make($validated['password']);
+        $status = Password::reset($validated, function ($user, $password) {
+            $user->password = Hash::make($password);
             $user->save();
             event(new PasswordReset($user));
         });
