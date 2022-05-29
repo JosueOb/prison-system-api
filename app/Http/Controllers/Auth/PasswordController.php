@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Password;
 
 class PasswordController extends Controller
 {
-    public function resetLink(Request $request): JsonResponse
+    public function resendLink(Request $request): JsonResponse
     {
         $request->validate([
             'email' => ['required', 'email'],
@@ -30,7 +30,7 @@ class PasswordController extends Controller
             );
     }
 
-    public function update(ResetPasswordRequest $request): JsonResponse
+    public function reset(ResetPasswordRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $status = Password::reset($validated, function ($user, $password) {
