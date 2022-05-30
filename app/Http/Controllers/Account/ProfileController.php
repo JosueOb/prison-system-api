@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         return $this->sendResponse(message: "Successfully getting the user's profile", result: [
             'user' => new ProfileResource($user),
-            'avatar' => 'example.png' #TODO: Get the user's avatar.
+            'avatar' => $user->getImage()
         ]);
     }
 
