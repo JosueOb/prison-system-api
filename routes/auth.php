@@ -1,21 +1,19 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\{AuthController, PasswordController};
 use Illuminate\Support\Facades\Route;
 
 /**
  * Authentication routes
  */
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->middleware('auth:sanctum')
+        ->name('logout');
+});
 
-Route::post('/forgot-password', [PasswordController::class, 'resendLink'])
-    ->name('password.resend-link');
-
-Route::post('/reset-password', [PasswordController::class, 'reset'])
-    ->name('password.reset');
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::controller(PasswordController::class)->group(function () {
+    Route::get('/reset-password/{token}', 'redirectReset')->name('password.reset');
+    Route::post('/forgot-password', 'resendLink')->name('password.resend-link');
+    Route::post('/reset-password', 'restore')->name('password.restore');
 });

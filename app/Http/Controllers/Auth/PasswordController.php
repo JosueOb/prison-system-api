@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Http\{JsonResponse, Request};
+use Illuminate\Support\Facades\{Hash, Password};
 
 class PasswordController extends Controller
 {
@@ -30,7 +28,7 @@ class PasswordController extends Controller
             );
     }
 
-    public function reset(ResetPasswordRequest $request): JsonResponse
+    public function restore(ResetPasswordRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $status = Password::reset($validated, function ($user, $password) {
@@ -46,5 +44,16 @@ class PasswordController extends Controller
                 errors: ['email' => __($status)],
                 code: 422
             );
+    }
+
+    public function redirectReset(Request $request): JsonResponse
+    {
+        $frontend_url = env('APP_FRONTEND_URL');
+        $token = $request->route('token');
+        $email = $request->email;
+        $url = "$frontend_url/?token=$token&email=$email";
+        return $this->sendResponse(message: 'Successful redirection', result: ['url' => $url]);
+        /*TODO: Uncomment when the frontend is running*/
+        //return redirect()->away($url);
     }
 }
