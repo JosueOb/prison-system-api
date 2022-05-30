@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+/* TODO: Move to api route and PasswordController is responsible for doing this action.*/
 Route::get('/reset-password/{token}', function (Request $request) {
     $url = env('APP_FRONTEND_URL') .
         "/?token={$request->route('token')}&email=$request->email";
