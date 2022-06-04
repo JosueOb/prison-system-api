@@ -17,16 +17,17 @@ trait HasImage
 
     /**
      * Methods
-     * TODO: Store and update image
      */
-    public function getImage(): string
+    public function attachImage(string $image_path): void
     {
-        if (!$this->image) {
-            return env(
-                'DEFAULT_USER_AVATAR',
-                'https://cdn-icons-png.flaticon.com/512/711/711769.png'
-            );
+        $previous_image = $this->image;
+
+        if (is_null($previous_image)) {
+            $image = new Image(['path' => $image_path]);
+            $this->image()->save($image);
+        } else {
+            $previous_image->path = $image_path;
+            $previous_image->save();
         }
-        return $this->image->path;
     }
 }

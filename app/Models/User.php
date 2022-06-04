@@ -50,6 +50,23 @@ class User extends Authenticatable
         return "$this->first_name $this->last_name";
     }
 
+    public function getDefaultAvatarPath(): string
+    {
+        return env(
+            'DEFAULT_USER_AVATAR',
+            'https://cdn-icons-png.flaticon.com/512/711/711769.png'
+        );
+    }
+
+    public function getAvatarPath(): string
+    {
+        if (!$this->image) {
+            return $this->getDefaultAvatarPath();
+        }
+        return $this->image->path;
+    }
+
+
     /**
      * Relationships
      */

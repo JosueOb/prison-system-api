@@ -13,9 +13,9 @@ class ProfileController extends Controller
     public function show(): JsonResponse
     {
         $user = Auth::user();
-        return $this->sendResponse(message: "Successfully getting the user's profile", result: [
+        return $this->sendResponse(message: "User's profile returned successfully", result: [
             'user' => new ProfileResource($user),
-            'avatar' => $user->getImage()
+            'avatar' => $user->getAvatarPath()
         ]);
     }
 
@@ -25,6 +25,6 @@ class ProfileController extends Controller
         $user = $request->user();
         $user->fill($validated)->save();
 
-        return $this->sendResponse('Profile successfully updated');
+        return $this->sendResponse('Profile updated successfully');
     }
 }

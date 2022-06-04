@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Account\{AvatarController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('/', 'show')->name('profile');
                 Route::post('/', 'store')->name('profile.store');
             });
+            Route::post('/avatar', [AvatarController::class, 'store'])->name('profile.avatar');
         });
     });
 });
