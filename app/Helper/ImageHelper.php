@@ -13,13 +13,14 @@ class ImageHelper
     static function getLoadedImagePath(
         UploadedFile $uploaded_image,
         string|null  $previous_image_path = null,
-        string       $directory = 'images'
+        string       $directory = 'images',
+        string       $disk = 'dropbox'
     ): string
     {
-        $uploaded_image_path = $uploaded_image->store($directory);
+        $uploaded_image_path = $uploaded_image->store($directory, $disk);
 
-        if ($previous_image_path && Storage::exists($previous_image_path)) {
-            Storage::delete($previous_image_path);
+        if ($previous_image_path && Storage::disk($disk)->exists($previous_image_path)) {
+            Storage::disk($disk)->delete($previous_image_path);
         }
 
         return $uploaded_image_path;
