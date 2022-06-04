@@ -16,4 +16,6 @@ Route::controller(PasswordController::class)->group(function () {
     Route::get('/reset-password/{token}', 'redirectReset')->name('password.reset');
     Route::post('/forgot-password', 'resendLink')->name('password.resend-link');
     Route::post('/reset-password', 'restore')->name('password.restore');
+    Route::post('/update-password', 'update')->middleware('auth:sanctum')
+        ->name('password.update');
 });
