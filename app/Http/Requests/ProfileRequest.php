@@ -27,7 +27,7 @@ class ProfileRequest extends FormRequest
                 "before_or_equal:{$allowed_date_range['min']}",
             ],
             'phone_number' => ['required', 'numeric', new PhoneNumber, 'digits:10'],
-            'home_phone_number' => ['required', 'numeric', new HomePhoneNumber, 'digits:9'],
+            'home_phone_number' => ['nullable', 'numeric', new HomePhoneNumber, 'digits:9'],
             'address' => ['required', 'string', 'min:5', 'max:50'],
         ];
     }
