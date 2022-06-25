@@ -16,6 +16,7 @@ class UserController extends Controller
 
     public function __construct(Role $role)
     {
+        $this->middleware('is.user.active')->only('update');
         $this->role = $role;
     }
 

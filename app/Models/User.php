@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->image->path;
     }
 
+    public function hasRole(string $role_slug): bool
+    {
+        return $this->role->slug === $role_slug;
+    }
+
 
     /**
      * Relationships
