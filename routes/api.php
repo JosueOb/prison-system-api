@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\RoleEnum;
+use App\Http\Controllers\Users\DirectorController;
 use App\Http\Controllers\Account\{AvatarController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,15 @@ Route::prefix('v1')->group(function () {
                 Route::post('/', 'store')->name('profile.store');
             });
             Route::post('/avatar', [AvatarController::class, 'store'])->name('profile.avatar');
+        });
+        Route::prefix(RoleEnum::DIRECTOR->value)->group(function () {
+            Route::controller(DirectorController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{user}', 'show');
+                Route::post('/{user}/update', 'update');
+                Route::get('/{user}/destroy', 'destroy');
+            });
         });
     });
 });

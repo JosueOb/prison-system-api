@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Helper\ImageHelper;
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImageRequest;
 use Illuminate\Http\JsonResponse;

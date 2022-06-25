@@ -12,4 +12,8 @@ return [
         'address' => env('ADMIN_ADDRESS', 'Test Address'),
         'password' => password_hash(env('ADMIN_PASSWORD', 'secret'), PASSWORD_BCRYPT),
     ]),
+    'allowed_date_range' => [
+        'max' => date('Y-m-d', strtotime('-70 years')),
+        'min' => date('Y-m-d', strtotime('-18 years')),
+    ]
 ];

@@ -1,30 +1,27 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
-use App\Rules\{Alpha, HomePhoneNumber, PhoneNumber, Username};
+use App\Rules\{Alpha, PhoneNumber, Username};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
 
     public function rules(): array
     {
-        $allowed_date_range = config('user.allowed_date_range');
-
+        $user = $this->route('user');
         return [
             'first_name' => ['required', 'string', new Alpha, 'min:3', 'max:35'],
             'last_name' => ['required', 'string', new Alpha, 'min:3', 'max:35'],
             'username' => ['required', 'string', new Username, 'min:5', 'max:20',
-                Rule::unique('users')->ignore($this->user()->id),
+                Rule::unique('users')->ignore($user),
             ],
-            'birthdate' => ['nullable', 'string', 'date_format:Y-m-d',
-                "after_or_equal:{$allowed_date_range['max']}",
-                "before_or_equal:{$allowed_date_range['min']}",
+            'email' => ['required', 'string', 'email', 'max:255',
+                Rule::unique('users')->ignore($user),
             ],
             'phone_number' => ['required', 'numeric', new PhoneNumber, 'digits:10'],
-            'home_phone_number' => ['nullable', 'numeric', new HomePhoneNumber, 'digits:9'],
             'address' => ['required', 'string', 'min:5', 'max:50'],
         ];
     }

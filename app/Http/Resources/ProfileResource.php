@@ -23,6 +23,9 @@ class ProfileResource extends JsonResource
             'phone_number' => $this->phone_number,
             'home_phone_number' => $this->home_phone_number,
             'address' => $this->address,
+            'avatar' => $this->getAvatarPath(),
+            'role' => $this->role->name,
+            'state' => $this->state,
         ];
     }
 }
