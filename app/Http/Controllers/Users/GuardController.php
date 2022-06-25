@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Users;
 
 use App\Enums\RoleEnum;
 
-class DirectorController extends UserController
+class GuardController extends UserController
 {
     public function __construct()
     {
-        $this->middleware('can:manage-directors');
+        $this->middleware('can:manage-guards');
 
-        $role_slug = RoleEnum::DIRECTOR->value;
+        $role_slug = RoleEnum::GUARD->value;
         parent::__construct($role_slug);
     }
 }

@@ -12,17 +12,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    protected Role $role;
+    protected string $role_slug;
 
-    public function __construct(Role $role)
+    public function __construct(string $role_slug)
     {
         $this->middleware('is.user.active')->only('update');
-        $this->role = $role;
+        $this->middleware("verify.user.role:$role_slug")
+            ->only('show', 'update', 'destroy');
+
+        $this->role_slug = $role_slug;
     }
 
     public function index(): JsonResponse
     {
-        $users = $this->role->users;
+        $role = Role::where('slug', $this->role_slug)->first();
+        $users = $role->users;
 
         return $this->sendResponse(message: 'User list generated successfully', result: [
             'users' => UserResource::collection($users),
@@ -32,10 +36,11 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): JsonResponse
     {
         $user_data = $request->validated();
+        $role = Role::where('slug', $this->role_slug)->first();
         $user = new User($user_data);
         $temp_password = PasswordHelper::generatePassword();
         $user->password = Hash::make($temp_password);
-        $this->role->users()->save($user);
+        $role->users()->save($user);
 
         return $this->sendResponse(message: 'User stored successfully');
 
