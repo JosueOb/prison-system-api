@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Users;
 
-
 use App\Enums\RoleEnum;
 
 class GuardController extends UserController

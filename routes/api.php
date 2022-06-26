@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\RoleEnum;
-use App\Http\Controllers\Users\{DirectorController, GuardController};
+use App\Http\Controllers\Users\{DirectorController, GuardController, PrisonerController};
 use App\Http\Controllers\Account\{AvatarController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +39,15 @@ Route::prefix('v1')->group(function () {
         });
         Route::prefix(RoleEnum::GUARD->value)->group(function () {
             Route::controller(GuardController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{user}', 'show');
+                Route::post('/{user}/update', 'update');
+                Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+        Route::prefix(RoleEnum::PRISONER->value)->group(function () {
+            Route::controller(PrisonerController::class)->group(function () {
                 Route::get('/', 'index');
                 Route::post('/create', 'store');
                 Route::get('/{user}', 'show');
