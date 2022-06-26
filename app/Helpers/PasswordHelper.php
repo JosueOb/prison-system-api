@@ -5,7 +5,7 @@ namespace App\Helpers;
 class PasswordHelper
 {
     private static string $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*?";
-    private static int $length = 8;
+    private static int $length = 16;
 
     public static function generatePassword(): string
     {
