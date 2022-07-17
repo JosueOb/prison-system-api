@@ -6,6 +6,7 @@ use App\Traits\HasImage;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -71,12 +72,19 @@ class User extends Authenticatable
         return $this->role->slug === $role_slug;
     }
 
-
     /**
      * Relationships
      */
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /*A user could be assigned to one or more wards*/
+    public function wards(): BelongsToMany
+    {
+        return $this->belongsToMany(Ward::class)
+            ->wherePivot('state', true)
+            ->withTimestamps();
     }
 }

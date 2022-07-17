@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\RoleEnum;
+use App\Models\{Role, User};
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -19,10 +18,14 @@ class UserSeeder extends Seeder
          */
         /*Default administrator*/
         $default_admin = config('user.admin');
-        $admin_role = Role::where('slug', 'admin')->first();
+        $admin_role = Role::where('slug', RoleEnum::ADMIN->value)->first();
         $admin_role->users()->save($default_admin);
         /*Directors | Guards | Prisoners*/
-        $roles = Role::whereIn('slug', ['director', 'guard', 'prisoner'])->get();
+        $roles = Role::whereIn('slug', [
+            RoleEnum::DIRECTOR->value,
+            RoleEnum::GUARD->value,
+            RoleEnum::PRISONER->value
+        ])->get();
         $roles->each(function (Role $role) {
             User::factory()->for($role)->count(rand(5, 15))->create();
         });

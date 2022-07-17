@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -13,9 +14,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $default_role_names = collect([
-            'admin', 'director', 'guard', 'prisoner'
-        ]);
+        $default_role_names = collect(array_column(RoleEnum::cases(), 'value'));
         // Register default roles using Eloquent model
         $default_role_names->each(function ($role_name) {
             Role::create([
