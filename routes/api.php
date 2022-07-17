@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RoleEnum;
+use App\Http\Controllers\Spaces\WardController;
 use App\Http\Controllers\Users\{DirectorController, GuardController, PrisonerController};
 use App\Http\Controllers\Account\{AvatarController, ProfileController};
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,15 @@ Route::prefix('v1')->group(function () {
                 Route::get('/{user}', 'show');
                 Route::post('/{user}/update', 'update');
                 Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+        Route::prefix('ward')->group(function () {
+            Route::controller(WardController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{ward}', 'show');
+                Route::post('/{ward}/update', 'update');
+                Route::get('/{ward}/destroy', 'destroy');
             });
         });
     });

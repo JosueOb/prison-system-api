@@ -3,45 +3,55 @@
 namespace App\Http\Controllers\Spaces;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Spaces\WardRequest;
+use App\Http\Resources\WardResource;
 use App\Models\Ward;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class WardController extends Controller
 {
 
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $wards = Ward::orderBy('name', 'asc')->get();
+        return $this->sendResponse(message: 'Ward list generated successfully', result: [
+            'wards' => $wards
+        ]);
     }
 
 
-    public function create()
+    public function store(WardRequest $request): JsonResponse
     {
-        //
+        $ward_data = $request->validated();
+        Ward::create($ward_data);
+        return $this->sendResponse(message: 'Ward stored successfully');
     }
 
-    public function store(Request $request)
+    public function show(Ward $ward): JsonResponse
     {
-        //
+        return $this->sendResponse(message: 'Ward details', result: [
+            'ward' => new WardResource($ward)
+        ]);
     }
 
-    public function show(Ward $ward)
+    public function update(WardRequest $request, Ward $ward): JsonResponse
     {
-        //
+        $ward_data = $request->validated();
+        $ward->fill($ward_data)->save();
+        return $this->sendResponse(message: 'Ward updated successfully');
     }
 
-    public function edit(Ward $ward)
+    public function destroy(Ward $ward): JsonResponse
     {
-        //
-    }
+        $ward_state = $ward->state;
+        $message = $ward_state ? 'inactivated' : 'activated';
 
-    public function update(Request $request, Ward $ward)
-    {
-        //
-    }
+        if ($ward->users->isNotEmpty()) {
+            return $this->sendResponse(message: 'This ward has assigned guard(s)', code: 403);
+        }
 
-    public function destroy(Ward $ward)
-    {
-        //
+        $ward->forceFill(['state' => !$ward_state])->save();
+
+        return $this->sendResponse(message: "Ward $message successfully");
     }
 }

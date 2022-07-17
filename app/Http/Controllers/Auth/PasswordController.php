@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\{ResetPasswordRequest, UpdatePasswordRequest};
+use App\Http\Requests\Auth\{ResetPasswordRequest, UpdatePasswordRequest};
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\{JsonResponse, Request};
 use Illuminate\Support\Facades\{Hash, Password};
