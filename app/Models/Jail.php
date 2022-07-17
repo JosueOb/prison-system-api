@@ -11,7 +11,9 @@ class Jail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'type', 'capacity', 'description'];
+    protected $fillable = ['name', 'code', 'type', 'capacity', 'description', 'ward_id'];
+
+    protected $hidden = ['created_at', 'updated_at', 'code', 'description', 'ward_id'];
 
     /**
      * Relationships
