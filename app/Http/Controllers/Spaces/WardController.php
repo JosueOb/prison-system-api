@@ -10,6 +10,10 @@ use Illuminate\Http\JsonResponse;
 
 class WardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:manage-wards');
+    }
 
     public function index(): JsonResponse
     {

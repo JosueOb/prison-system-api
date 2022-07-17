@@ -10,6 +10,11 @@ use Illuminate\Http\JsonResponse;
 
 class JailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:manage-jails');
+    }
+
     public function index(): JsonResponse
     {
         $jails = Jail::orderBy('name', 'asc')->get();
