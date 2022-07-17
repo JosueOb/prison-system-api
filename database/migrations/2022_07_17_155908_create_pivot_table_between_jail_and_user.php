@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,14 +13,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user_ward', function (Blueprint $table) {
+        Schema::create('jail_user', function (Blueprint $table) {
             $table->id();
             /*foreign keys*/
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('ward_id')
+            $table->foreignId('jail_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -37,6 +38,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_ward');
+        Schema::dropIfExists('jail_user');
     }
 };

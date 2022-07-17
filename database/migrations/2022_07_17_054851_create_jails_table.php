@@ -12,19 +12,21 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user_ward', function (Blueprint $table) {
+        Schema::create('jails', function (Blueprint $table) {
             $table->id();
+            /*required columns*/
+            $table->string('name', 45);
+            $table->string('code', 45);
+            $table->enum('type', ['low', 'medium', 'high']);
+            $table->unsignedBigInteger('capacity');
+            $table->boolean('state')->default(true);
+            /*nullable columns*/
+            $table->string('description')->nullable();
             /*foreign keys*/
-            $table->foreignId('user_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->foreignId('ward_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            /*required columns*/
-            $table->boolean('state')->default(true);
             /*special columns*/
             $table->timestamps();
         });
@@ -35,8 +37,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('user_ward');
+        Schema::dropIfExists('jails');
     }
 };

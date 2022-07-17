@@ -87,4 +87,12 @@ class User extends Authenticatable
             ->wherePivot('state', true)
             ->withTimestamps();
     }
+
+    /*A user (prisoner) can be moved to one or more jails*/
+    public function jails(): BelongsToMany
+    {
+        return $this->belongsToMany(Jail::class)
+            ->wherePivot('state', true)
+            ->withTimestamps();
+    }
 }
