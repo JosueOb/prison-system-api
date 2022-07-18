@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Spaces;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Spaces\WardRequest;
+use App\Http\Resources\SpaceResource;
 use App\Http\Resources\WardResource;
 use App\Models\Ward;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,7 @@ class WardController extends Controller
     {
         $wards = Ward::orderBy('name', 'asc')->get();
         return $this->sendResponse(message: 'Ward list generated successfully', result: [
-            'wards' => $wards
+            'wards' => SpaceResource::collection($wards)
         ]);
     }
 

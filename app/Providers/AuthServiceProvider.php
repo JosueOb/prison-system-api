@@ -46,5 +46,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-jails', function (User $user) {
             return $user->role->slug === RoleEnum::DIRECTOR->value;
         });
+
+        Gate::define('manage-assignment', function (User $user) {
+            return $user->role->slug === RoleEnum::DIRECTOR->value;
+        });
     }
 }

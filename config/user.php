@@ -15,5 +15,8 @@ return [
     'allowed_date_range' => [
         'max' => date('Y-m-d', strtotime('-70 years')),
         'min' => date('Y-m-d', strtotime('-18 years')),
+    ],
+    'assignment' => [
+        'number_of_guards_per_ward' => 2
     ]
 ];

@@ -12,8 +12,6 @@ class Ward extends Model
 
     protected $fillable = ['name', 'location', 'description'];
 
-    protected $hidden = ['created_at', 'updated_at'];
-
     /**
      * Relations
      */

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Spaces;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Spaces\JailRequest;
-use App\Http\Resources\JailResource;
+use App\Http\Resources\{JailResource, SpaceResource};
 use App\Models\Jail;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +19,7 @@ class JailController extends Controller
     {
         $jails = Jail::orderBy('name', 'asc')->get();
         return $this->sendResponse(message: 'Jail list generated successfully', result: [
-            'jails' => $jails
+            'jails' => SpaceResource::collection($jails)
         ]);
     }
 
