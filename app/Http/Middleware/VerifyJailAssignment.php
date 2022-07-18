@@ -14,12 +14,13 @@ class VerifyJailAssignment
         $user = $request->route('user');
         $jail_id = $request->route('space');
         $jail = Jail::findOrFail($jail_id);
+        $user_jail = $user->jails->first();
 
         if (!$user->state || !$user->hasRole(RoleEnum::PRISONER->value) || !$jail->state) {
             return abort(403, 'This action is unauthorized.');
         }
 
-        if ($user->jails->first()->id === $jail->id) {
+        if ($user_jail && $user_jail->id === $jail->id) {
             return abort(403, 'The prisoner is already assigned to that jail.');
         }
 

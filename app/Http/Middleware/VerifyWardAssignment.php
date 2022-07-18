@@ -14,12 +14,13 @@ class VerifyWardAssignment
         $user = $request->route('user');
         $ward_id = $request->route('space');
         $ward = Ward::findOrFail($ward_id);
+        $user_ward = $user->wards->first();
 
         if (!$user->state || !$user->hasRole(RoleEnum::GUARD->value) || !$ward->state) {
             return abort(403, 'This action is unauthorized.');
         }
 
-        if ($user->wards->first()->id === $ward->id) {
+        if ($user_ward && $user_ward->id === $ward->id) {
             return abort(403, 'The guard is already assigned to that ward.');
         }
 
