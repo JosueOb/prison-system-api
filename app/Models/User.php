@@ -5,8 +5,7 @@ namespace App\Models;
 use App\Traits\HasImage;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -94,5 +93,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Jail::class)
             ->wherePivot('state', true)
             ->withTimestamps();
+    }
+
+    /*A user (guard) can have one or more reports*/
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
     }
 }

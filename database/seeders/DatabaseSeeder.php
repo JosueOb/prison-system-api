@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             WardSeeder::class,
-            JailSeeder::class
+            JailSeeder::class,
+            ReportSeeder::class,
         ]);
     }
 }
