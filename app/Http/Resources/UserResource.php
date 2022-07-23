@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'full_name' => $this->getFullName(),
+            'full_name' => ImageHelper::getDiskImageUrl($this->getFullName()),
             'email' => $this->email,
             'role' => $this->role->name,
             'state' => $this->state,
