@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Enums\RoleEnum;
+use App\Models\Report;
 use App\Models\User;
+use App\Policies\ReportPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Report::class => ReportPolicy::class,
     ];
 
     /**

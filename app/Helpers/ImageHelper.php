@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImageHelper
 {
@@ -24,5 +25,12 @@ class ImageHelper
         }
 
         return $uploaded_image_path;
+    }
+
+    static function getDiskImageUrl(string $path, string $disk = 'dropbox'): string
+    {
+        return Str::startsWith($path, 'https://')
+            ? $path
+            : Storage::disk($disk)->url($path);
     }
 }
