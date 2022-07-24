@@ -20,7 +20,7 @@ class ProfileResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
-            'birthdate' => $this->birthdate->toDateString(),
+            'birthdate' => $this->birthdate?->toDateString(),
             'phone_number' => $this->phone_number,
             'home_phone_number' => $this->home_phone_number,
             'address' => $this->address,
