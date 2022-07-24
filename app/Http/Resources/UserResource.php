@@ -18,11 +18,11 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'full_name' => ImageHelper::getDiskImageUrl($this->getFullName()),
+            'full_name' => $this->getFullName(),
             'email' => $this->email,
             'role' => $this->role->name,
             'state' => $this->state,
-            'avatar' => $this->getAvatarPath(),
+            'avatar' => ImageHelper::getDiskImageUrl($this->getAvatarPath()),
         ];
     }
 }
