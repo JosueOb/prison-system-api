@@ -10,7 +10,7 @@ return [
         'username' => 'ps-admin',
         'phone_number' => env('ADMIN_PHONE', '0999999999'),
         'address' => env('ADMIN_ADDRESS', 'Test Address'),
-        'password' => password_hash(env('ADMIN_PASSWORD', 'secret'), PASSWORD_BCRYPT),
+        'password' => password_hash(env('ADMIN_PASSWORD'), PASSWORD_BCRYPT),
     ]),
     'allowed_date_range' => [
         'max' => date('Y-m-d', strtotime('-70 years')),
